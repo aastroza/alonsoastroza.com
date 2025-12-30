@@ -8,18 +8,20 @@ const { variant = "default" } = Astro.props;
 
 <div
   class={variant === "default"
-    ? "newsletter-box my-8 rounded-lg border border-border/60 bg-transparent p-6 sm:p-8"
+    ? "newsletter-box my-8 rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent p-6 sm:p-8"
     : "newsletter-compact mt-6"}
 >
   {variant === "default" && (
-    <p class="mb-5 text-sm text-foreground/90">
+    <p class="text-sm text-gray-900 dark:text-gray-100 mb-4">
       New posts, shipping stories, and nerdy links straight to your inbox.
     </p>
   )}
+
   <form
     action="https://buttondown.com/api/emails/embed-subscribe/astroza"
     method="post"
-    class="embeddable-buttondown-form flex flex-col gap-3 sm:flex-row sm:items-center"
+    target="_blank"
+    class="embeddable-buttondown-form flex flex-col sm:flex-row gap-3"
   >
     <label for="bd-name" class="sr-only">Your Name</label>
     <input
@@ -27,7 +29,7 @@ const { variant = "default" } = Astro.props;
       name="name"
       id="bd-name"
       placeholder="Your Name"
-      class="flex-1 rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground placeholder:text-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent"
+      class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-600 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
     />
     <label for="bd-email" class="sr-only">Your Email</label>
     <input
@@ -36,15 +38,30 @@ const { variant = "default" } = Astro.props;
       id="bd-email"
       placeholder="Your Email"
       required
-      class="flex-1 rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground placeholder:text-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent"
+      class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-600 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
     />
-    <input
+    <button
       type="submit"
-      value="Subscribe"
-      class="rounded-md bg-[#0a6fbf] px-6 py-2 text-sm font-semibold text-white hover:bg-[#095fa6] transition-colors font-mono tracking-wide"
-    />
+      class="px-6 py-2 rounded-md bg-[#0a6fbf] hover:bg-[#095fa6] transition-colors font-semibold whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+      style="color: white;"
+    >
+      Subscribe
+    </button>
   </form>
+
   {variant === "default" && (
-    <p class="mt-4 text-xs text-foreground/80">2× per month, pure signal, zero fluff.</p>
+    <p class="text-xs text-gray-900 dark:text-gray-100 mt-3">
+      2× per month, pure signal, zero fluff.
+    </p>
   )}
 </div>
+
+<style>
+  @media (max-width: 640px) {
+    .newsletter-box {
+      margin-left: -1rem;
+      margin-right: -1rem;
+      border-radius: 0;
+    }
+  }
+</style>
