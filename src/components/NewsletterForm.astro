@@ -8,7 +8,7 @@ const { variant = "default" } = Astro.props;
 
 <div
   class={variant === "default"
-    ? "newsletter-box my-8 rounded-lg border border-border/60 bg-muted/40 p-6 sm:p-8"
+    ? "newsletter-box my-8 rounded-lg border border-border/60 bg-transparent p-6 sm:p-8"
     : "newsletter-compact mt-6"}
 >
   {variant === "default" && (
@@ -41,20 +41,10 @@ const { variant = "default" } = Astro.props;
     <input
       type="submit"
       value="Subscribe"
-      class="rounded-md bg-accent px-6 py-2 text-sm font-medium text-white hover:bg-accent/90 transition-colors"
+      class="rounded-md bg-[#0b6fbf] px-6 py-2 text-sm font-semibold text-white hover:bg-[#0a63aa] transition-colors font-mono tracking-wide"
     />
   </form>
   {variant === "default" && (
     <p class="mt-4 text-xs text-foreground/60">2× per month, pure signal, zero fluff.</p>
   )}
-  <p class="mt-2 text-xs text-foreground/50">
-    <a
-      href="https://buttondown.com/refer/astroza"
-      target="_blank"
-      rel="noreferrer"
-      class="hover:text-foreground"
-    >
-      Powered by Buttondown.
-    </a>
-  </p>
 </div>
