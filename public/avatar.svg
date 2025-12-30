@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Alonso Astroza">
+  <rect width="256" height="256" rx="128" fill="#0f172a" />
+  <circle cx="128" cy="108" r="44" fill="#94a3b8" />
+  <path d="M48 224c12-44 44-72 80-72s68 28 80 72" fill="#475569" />
+  <text x="128" y="236" text-anchor="middle" font-size="28" font-family="Arial, sans-serif" fill="#e2e8f0">
+    AA
+  </text>
+</svg>
