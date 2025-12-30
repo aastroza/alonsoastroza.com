@@ -99,7 +99,7 @@ export default defineConfig({
     react(),
     AstroPWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.ico", "avatar.svg"],
+      includeAssets: ["favicon.ico", "avatar.jpeg"],
       manifest: {
         name: "Alonso Astroza",
         short_name: "Alonso",
@@ -117,15 +117,15 @@ export default defineConfig({
             type: "image/x-icon",
           },
           {
-            src: "avatar.svg",
-            sizes: "any",
-            type: "image/svg+xml",
+            src: "avatar.jpeg",
+            sizes: "192x192",
+            type: "image/jpeg",
             purpose: "any",
           },
           {
-            src: "avatar.svg",
-            sizes: "any",
-            type: "image/svg+xml",
+            src: "avatar.jpeg",
+            sizes: "512x512",
+            type: "image/jpeg",
             purpose: "any maskable",
           },
         ],

@@ -36,7 +36,7 @@ export const SITE: Site = {
   profile: "https://alonsoastroza.com/about",
   desc: "Personal website and notes by Alonso Astroza.",
   title: "Alonso Astroza",
-  ogImage: "avatar.svg",
+  ogImage: "avatar.jpeg",
   lightAndDarkMode: true,
   postPerIndex: 10,
   postPerPage: 10,
