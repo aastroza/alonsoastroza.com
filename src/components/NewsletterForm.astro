@@ -7,20 +7,54 @@ const { variant = "default" } = Astro.props;
 ---
 
 <div
-  class={variant === "default" ? "newsletter-box my-8" : "newsletter-compact mt-6"}
+  class={variant === "default"
+    ? "newsletter-box my-8 rounded-lg border border-border/60 bg-muted/40 p-6 sm:p-8"
+    : "newsletter-compact mt-6"}
 >
+  {variant === "default" && (
+    <p class="mb-5 text-sm text-foreground/70">
+      New posts, shipping stories, and nerdy links straight to your inbox.
+    </p>
+  )}
   <form
     action="https://buttondown.com/api/emails/embed-subscribe/astroza"
     method="post"
-    class="embeddable-buttondown-form"
+    class="embeddable-buttondown-form flex flex-col gap-3 sm:flex-row sm:items-center"
   >
-    <label for="bd-email">Enter your email</label>
-    <input type="email" name="email" id="bd-email" />
-    <input type="submit" value="Subscribe" />
-    <p>
-      <a href="https://buttondown.com/refer/astroza" target="_blank" rel="noreferrer">
-        Powered by Buttondown.
-      </a>
-    </p>
+    <label for="bd-name" class="sr-only">Your Name</label>
+    <input
+      type="text"
+      name="name"
+      id="bd-name"
+      placeholder="Your Name"
+      class="flex-1 rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent"
+    />
+    <label for="bd-email" class="sr-only">Your Email</label>
+    <input
+      type="email"
+      name="email"
+      id="bd-email"
+      placeholder="Your Email"
+      required
+      class="flex-1 rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent"
+    />
+    <input
+      type="submit"
+      value="Subscribe"
+      class="rounded-md bg-accent px-6 py-2 text-sm font-medium text-white hover:bg-accent/90 transition-colors"
+    />
   </form>
+  {variant === "default" && (
+    <p class="mt-4 text-xs text-foreground/60">2× per month, pure signal, zero fluff.</p>
+  )}
+  <p class="mt-2 text-xs text-foreground/50">
+    <a
+      href="https://buttondown.com/refer/astroza"
+      target="_blank"
+      rel="noreferrer"
+      class="hover:text-foreground"
+    >
+      Powered by Buttondown.
+    </a>
+  </p>
 </div>
