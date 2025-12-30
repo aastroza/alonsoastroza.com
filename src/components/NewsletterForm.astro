@@ -12,7 +12,7 @@ const { variant = "default" } = Astro.props;
     : "newsletter-compact mt-6"}
 >
   {variant === "default" && (
-    <p class="mb-5 text-sm text-foreground/70">
+    <p class="mb-5 text-sm text-foreground/90">
       New posts, shipping stories, and nerdy links straight to your inbox.
     </p>
   )}
@@ -27,7 +27,7 @@ const { variant = "default" } = Astro.props;
       name="name"
       id="bd-name"
       placeholder="Your Name"
-      class="flex-1 rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent"
+      class="flex-1 rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground placeholder:text-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent"
     />
     <label for="bd-email" class="sr-only">Your Email</label>
     <input
@@ -36,15 +36,15 @@ const { variant = "default" } = Astro.props;
       id="bd-email"
       placeholder="Your Email"
       required
-      class="flex-1 rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent"
+      class="flex-1 rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground placeholder:text-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent"
     />
     <input
       type="submit"
       value="Subscribe"
-      class="rounded-md bg-[#0b6fbf] px-6 py-2 text-sm font-semibold text-white hover:bg-[#0a63aa] transition-colors font-mono tracking-wide"
+      class="rounded-md bg-[#0a6fbf] px-6 py-2 text-sm font-semibold text-white hover:bg-[#095fa6] transition-colors font-mono tracking-wide"
     />
   </form>
   {variant === "default" && (
-    <p class="mt-4 text-xs text-foreground/60">2× per month, pure signal, zero fluff.</p>
+    <p class="mt-4 text-xs text-foreground/80">2× per month, pure signal, zero fluff.</p>
   )}
 </div>
