@@ -16,9 +16,8 @@ import getSortedPosts from "@/utils/getSortedPosts";
 const posts = await getCollection("blog");
 
 const sortedPosts = getSortedPosts(posts);
-const posts2025AndLater = sortedPosts.filter(({ data }) => data.pubDatetime.getFullYear() >= 2025);
-const featuredPosts = posts2025AndLater.filter(({ data }) => data.featured);
-const recentPosts = posts2025AndLater.filter(({ data }) => !data.featured);
+const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
+const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 ---
 
 <Layout description={SITE.desc}>
@@ -27,14 +26,23 @@ const recentPosts = posts2025AndLater.filter(({ data }) => !data.featured);
   <Header />
   <main id="main-content" data-layout="index">
     <section id="hero" class="pt-6 pb-4">
-      <div class="flex flex-col sm:flex-row items-start gap-4">
-        <a href="/about" class="block mx-auto sm:mx-0 group">
-          <img 
-            src="/avatar.jpeg"
-            alt="Alonso Astroza"
-            class="w-40 h-40 rounded-full object-cover flex-shrink-0 transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl"
-          />
-        </a>
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-start">
+        <div class="mx-auto flex shrink-0 flex-col items-center gap-4 sm:mx-0 sm:w-40">
+          <a href="/about" class="block group">
+            <img
+              src="/avatar.jpeg"
+              alt="Alonso Astroza"
+              class="h-40 w-40 rounded-full object-cover transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl"
+            />
+          </a>
+          {
+            SOCIALS.filter((social) => social.active).length > 0 && (
+              <div class="flex justify-center">
+                <Socials centered={true} />
+              </div>
+            )
+          }
+        </div>
         <div class="flex-1 text-center sm:text-left">
           <div class="flex items-center gap-2 justify-center sm:justify-start">
             <h1 class="my-2 inline-block text-2xl font-bold sm:my-4 sm:text-3xl">
@@ -55,15 +63,25 @@ const recentPosts = posts2025AndLater.filter(({ data }) => !data.featured);
               <span class="sr-only">RSS Feed</span>
             </a>
           </div>
-          <p>I am not one of them. I wish to save the world.</p>
-          {
-            // only display if at least one social link is enabled
-            SOCIALS.filter((social) => social.active).length > 0 && (
-              <div class="mt-4 flex flex-row items-center justify-center sm:justify-start">
-                <Socials />
-              </div>
-            )
-          }
+          <div class="max-w-4xl space-y-4 leading-relaxed">
+            <p>
+              I am Deputy Director of Corporate Partnerships at the
+              <a href="https://ingenieria.udd.cl/persona/alonso-astroza-tagle/" target="_blank" rel="noreferrer" class="underline decoration-accent/40 underline-offset-4 hover:text-accent">Data Science Institute at Universidad del Desarrollo</a>, and I founded
+              <a href="https://iadevs.cl/" target="_blank" rel="noreferrer" class="underline decoration-accent/40 underline-offset-4 hover:text-accent">IADevs</a>
+              to bring AI engineers together in Chile through in-person events.
+            </p>
+            <p>
+              Right now I am focused on how LLMs understand humor and local culture through
+              <a href="https://datarisas.cl/" target="_blank" rel="noreferrer" class="underline decoration-accent/40 underline-offset-4 hover:text-accent">DataRisas</a>, and I also work on speech models through
+              <a href="https://github.com/idsudd/tricahue" target="_blank" rel="noreferrer" class="underline decoration-accent/40 underline-offset-4 hover:text-accent">Tricahue</a>. I'm a technical ambassador for
+              <a href="https://site.kotoba.tech/" target="_blank" rel="noreferrer" class="underline decoration-accent/40 underline-offset-4 hover:text-accent">Kotoba Technologies</a>.
+            </p>
+            <p>
+              I also teach
+              <a href="https://openai.com/codex/" target="_blank" rel="noreferrer" class="underline decoration-accent/40 underline-offset-4 hover:text-accent">OpenAI Codex</a>
+              to non-technical professionals who want to radically extend their work with agents without learning to code.
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -100,7 +118,7 @@ const recentPosts = posts2025AndLater.filter(({ data }) => !data.featured);
     }
 
     <div class="my-8 text-center">
-      <LinkButton href="/posts/">
+      <LinkButton href="/posts">
         All Posts
         <IconArrowRight class="inline-block" />
       </LinkButton>
