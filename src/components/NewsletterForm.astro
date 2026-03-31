@@ -12,8 +12,8 @@ const { variant = "default" } = Astro.props;
     : "newsletter-compact mt-6"}
 >
   {variant === "default" && (
-    <p class="text-sm text-gray-900 dark:text-gray-100 mb-4">
-      New posts, shipping stories, and nerdy links straight to your inbox.
+    <p class="mb-4 text-sm text-gray-900 dark:text-gray-100">
+      If you want an email when I publish something new, leave your address here.
     </p>
   )}
 
@@ -21,7 +21,7 @@ const { variant = "default" } = Astro.props;
     action="https://buttondown.com/api/emails/embed-subscribe/astroza"
     method="post"
     target="_blank"
-    class="embeddable-buttondown-form flex flex-col sm:flex-row gap-3"
+    class="embeddable-buttondown-form flex flex-col gap-3 sm:flex-row"
   >
     <label for="bd-name" class="sr-only">Your Name</label>
     <input
@@ -29,7 +29,7 @@ const { variant = "default" } = Astro.props;
       name="name"
       id="bd-name"
       placeholder="Your Name"
-      class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-600 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+      class="flex-1 rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-900 placeholder-gray-600 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-accent dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:placeholder-gray-400"
     />
     <label for="bd-email" class="sr-only">Your Email</label>
     <input
@@ -38,11 +38,11 @@ const { variant = "default" } = Astro.props;
       id="bd-email"
       placeholder="Your Email"
       required
-      class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-600 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+      class="flex-1 rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-900 placeholder-gray-600 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-accent dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:placeholder-gray-400"
     />
     <button
       type="submit"
-      class="px-6 py-2 rounded-md bg-[#0a6fbf] hover:bg-[#095fa6] transition-colors font-semibold whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+      class="whitespace-nowrap rounded-md bg-[#0a6fbf] px-6 py-2 font-semibold transition-colors hover:bg-[#095fa6] focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
       style="color: white;"
     >
       Subscribe
@@ -50,8 +50,8 @@ const { variant = "default" } = Astro.props;
   </form>
 
   {variant === "default" && (
-    <p class="text-xs text-gray-900 dark:text-gray-100 mt-3">
-      2× per month, pure signal, zero fluff.
+    <p class="mt-3 text-xs text-gray-900 dark:text-gray-100">
+      Occasional updates about posts, projects, and experiments.
     </p>
   )}
 </div>
