@@ -34,7 +34,7 @@ export const SITE: Site = {
   website: "https://alonsoastroza.com/",
   author: "Alonso Astroza",
   profile: "https://alonsoastroza.com/about",
-  desc: "Personal website and notes by Alonso Astroza.",
+  desc: "Notes, projects, and community work by Alonso Astroza around AI, Codex, data science, and Chilean developer communities.",
   title: "Alonso Astroza",
   ogImage: "avatar.jpeg",
   lightAndDarkMode: true,
