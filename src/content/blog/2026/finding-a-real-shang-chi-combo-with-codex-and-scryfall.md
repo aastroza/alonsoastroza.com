@@ -76,10 +76,6 @@ The best output was the filtering: Codex separated real routes from cards that o
 
 ## The loop
 
-The part that made me stop was how little I had given Codex.
-
-I did not mention [Agatha's Soul Cauldron](https://scryfall.com/card/woe/242/agathas-soul-cauldron). I did not mention [Sleep-Cursed Faerie](https://scryfall.com/card/woe/66/sleep-cursed-faerie). I did not mention [Hawkeye's Bow](https://scryfall.com/card/msh/132/hawkeyes-bow).
-
 The prompt had one card: Shang-Chi. The question was whether Standard had a deterministic combo somewhere around him.
 
 Codex found one.
