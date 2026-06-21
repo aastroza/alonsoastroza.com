@@ -12,9 +12,7 @@ tags:
 
 This weekend, Magic: The Gathering's new Marvel Super Heroes set came out. A friend sent me [Shang-Chi, Master of Kung Fu](https://scryfall.com/card/msh/187/shang-chi-master-of-kung-fu) and told me, "Alonso, you should play a combo deck with this. I do not know what the combo is, but you should find one."
 
-I love creature-based combo decks, and green is my favorite color in Magic. Shang-Chi also has the kind of text that gets deckbuilders thinking. He lets you activate creature abilities as though those creatures had haste, and he taps for two mana that can be spent on creature-source abilities.
-
-That was enough to start digging.
+[I love creature-based combo decks](https://www.reddit.com/r/spikes/comments/43q2pe/standard_pptq_sydney_report_winner_with_abzan/), and green is my favorite color in Magic. Shang-Chi also has the kind of text that gets deckbuilders thinking. That was enough to start digging.
 
 <figure>
   <a href="https://scryfall.com/card/msh/187/shang-chi-master-of-kung-fu">
@@ -48,27 +46,28 @@ In Codex, I selected it by typing the at sign, `@`, and choosing the Scryfall sk
 
 ## Do not build the deck first
 
-My first prompt was narrower: prove that a combo exists before building the deck.
-
 A decklist can hide weak thinking. It can look plausible while being built around an interaction that does not actually work, costs too much mana, or needs too many pieces.
 
-So I gave Codex this prompt:
+I had already given Codex Shang-Chi as the starting card. Then I used this prompt:
 
 ```text
-Use Scryfall as the source of truth.
+I want to build the strongest competitive Standard combo deck around this card.
 
-I want to investigate Shang-Chi, Master of Kung Fu as a possible Standard combo card. Do not build a decklist yet.
+Do not build a deck yet.
 
-Search Standard and future-legal cards for deterministic or near-deterministic combo routes involving Shang-Chi. Look for creatures, artifacts, Equipment, enchantments, activated abilities, untap effects, cost reducers, and payoff cards.
+Use Scryfall API as the source of truth for Oracle text, legality, and exact names. Start from this card only. Search current Standard-legal cards plus future-legal previewed cards, if relevant.
 
-For each route:
-- list the exact cards
-- explain the rules interaction
-- check format legality
-- identify what makes the route win or fail
-- reject lines that do not actually work
+Search broadly across creatures, artifacts, Equipment, Auras, enchantments, triggered abilities, activated abilities, untap effects, and ability-copying/granting effects.
 
-Return the strongest routes first and include Scryfall links for every card.
+Find and rank every plausible deterministic combo route involving this card.
+
+For each route, include:
+- required cards
+- rules-accurate loop explanation
+- win type: immediate kill, infinite mana, infinite damage, infinite draw, or other deterministic win
+- why it works or fails
+
+Output only a ranked list of combo routes. No decklist yet.
 ```
 
 Codex searched Standard and future-legal cards. It looked at creatures, artifacts, Equipment, enchantments, activated abilities, untap effects, cost reducers, and payoff cards.
@@ -76,6 +75,8 @@ Codex searched Standard and future-legal cards. It looked at creatures, artifact
 The best output was the filtering: Codex separated real routes from cards that only looked related.
 
 ## The loop
+
+The surprise was that Codex found this line by itself. I did not give it Agatha's Soul Cauldron, Sleep-Cursed Faerie, or Hawkeye's Bow. I gave it Shang-Chi and asked whether a real combo existed.
 
 The card that made the loop possible was [Agatha's Soul Cauldron](https://scryfall.com/card/woe/242/agathas-soul-cauldron).
 
@@ -125,21 +126,22 @@ After the first search, I asked Codex to compare the surviving routes before wri
 I used this prompt:
 
 ```text
-Use Scryfall as the source of truth.
+Compare the surviving combo routes competitively.
 
-Compare the surviving Shang-Chi combo routes competitively. Do not write a 60-card decklist yet.
-
-Score each route on:
-- startup mana
-- likely goldfish turn
-- number of required cards
+Rank them by:
+- fewest required cards
+- lowest mana required to start
+- fastest goldfish turn
+- immediate kill versus delayed win
 - resilience to removal
-- vulnerability to graveyard hate, artifact hate, and counterspells
-- card quality when drawn alone
-- findability
-- mana-base difficulty
+- resilience to graveyard hate, artifact hate, and counterspells
+- how useful each card is outside the combo
+- how easy the pieces are to find in Standard
+- mana base difficulty
 
-Pick the best route for a first Standard build and explain why.
+Do not build the deck yet. Choose the single best route and 1-2 backup routes.
+
+For this task, write yourself a new goal and spawn agents in parallel — as many as needed to do it better. Split the work into independent pieces, dispatch them concurrently, and synthesize the results as they return. Give each agent its own dedicated /goal.
 ```
 
 Finding a combo is one job. Choosing a tournament plan is another. A route can be clever and still be a bad plan for a tournament deck.
@@ -152,23 +154,7 @@ That is where the Hawkeye's Bow route won. It has a direct kill, uses relatively
 
 Some of the prompts also include a weird-looking instruction. It leans on Codex's [subagents](https://developers.openai.com/codex/concepts/subagents): separate agents that can investigate different parts of the same problem before the main thread synthesizes the result.
 
-The fuller prompt looked like this:
-
-```text
-For this task, write yourself a new goal and spawn agents in parallel.
-Split the work into independent pieces, dispatch them concurrently,
-and synthesize the results as they return.
-Give each agent its own dedicated /goal.
-
-Evaluate the chosen Shang-Chi combo route from separate angles:
-- speed and goldfish turn
-- resilience to removal and disruption
-- findability and setup consistency
-- mana base
-- sideboard and metagame pressure
-
-Return the synthesis, the biggest risks, and the strongest build direction.
-```
+In the comparison prompt, that is the paragraph that starts with "write yourself a new goal and spawn agents in parallel." I use it when I want Codex to keep several lines of thought alive before it commits to one answer.
 
 I picked up this trick from a tweet by [Pietro Schirano](https://x.com/skirano/status/2066225908202053818?s=20).
 
@@ -185,17 +171,37 @@ Once the combo existed, I moved to the shell: which cards help this plan happen 
 I used this prompt to ask for the shell:
 
 ```text
-Use Scryfall as the source of truth.
+Now build the best competitive Standard shell around the selected route.
 
-Build a first Standard deck shell around this combo:
-- Shang-Chi, Master of Kung Fu
-- Agatha's Soul Cauldron
-- Sleep-Cursed Faerie
-- Hawkeye's Bow
+Use Scryfall as source of truth.
 
-Prioritize cards that find artifacts, put Sleep-Cursed Faerie in the graveyard, protect the combo, interact with the opponent, and keep the mana fast.
+Search separately for shell cards, not just combo cards:
+- cheap card selection
+- artifact, Equipment, enchantment, creature, permanent, and land finders
+- tutors
+- top-N-card dig effects
+- self-mill
+- loot/rummage/discard
+- graveyard recursion
+- artifact/enchantment recursion
+- protection for creatures
+- protection for artifacts/enchantments/permanents
+- counterspells
+- hand disruption
+- cheap removal
+- flexible sideboard answers
+- mana fixing and untapped dual lands
 
-Give me a first maindeck and sideboard, then explain the flex slots and the cards most likely to change after testing.
+For each candidate support card, evaluate:
+- which combo pieces it finds
+- whether it puts required cards into the graveyard
+- whether it recovers destroyed or milled pieces
+- whether it is useful when drawn without the combo
+- whether it creates dead cards
+- how much it stresses the mana base
+- whether it speeds up or slows down the goldfish
+
+For this task, write yourself a new goal and spawn agents in parallel — as many as needed to do it better. Split the work into independent pieces, dispatch them concurrently, and synthesize the results as they return. Give each agent its own dedicated /goal.
 ```
 
 A combo deck needs more than combo pieces. It needs cards that find the pieces, put the right cards in the graveyard, protect the setup, and make the mana work.
@@ -217,9 +223,32 @@ Codex searched for those categories separately. That gave the shell a clearer di
   <a href="https://scryfall.com/card/tmt/34/does-machines"><img src="https://cards.scryfall.io/normal/front/9/8/989da63a-2cbd-41a9-9bbb-99f4ad1c6a25.jpg?1774102268" alt="Does Machines" loading="lazy" style="border-radius: 10px; width: 100%;" /></a>
 </div>
 
-These are not combo pieces. They are the cards that make the combo less imaginary.
+These cards are the infrastructure. They turn a rules interaction into a deck you can actually shuffle up.
 
 ## The current list
+
+After the support-card search, I asked for a first list:
+
+```text
+Build the best competitive Standard shell around the best route selected above.
+
+Prioritize:
+- low curve
+- redundancy
+- card selection
+- tutors/dig
+- self-mill or discard if needed
+- protection
+- interaction
+- a realistic fast mana base with dual lands that can enter untapped early
+- backup plan using cards that are already useful in the combo
+
+Avoid cute routes that require too many dead cards.
+
+Give a first 60-card maindeck and 15-card sideboard.
+
+For this task, write yourself a new goal and spawn agents in parallel — as many as needed to do it better. Split the work into independent pieces, dispatch them concurrently, and synthesize the results as they return. Give each agent its own dedicated /goal.
+```
 
 The first shell Codex proposed was [Temur](https://mtg.fandom.com/wiki/Temur_Frontier), Magic shorthand for a blue-red-green deck.
 
@@ -242,18 +271,12 @@ But as a starting point, it is much better than guessing.
 
 ## What worked about the process
 
-The most useful part of this experiment was the order of operations.
+The exciting part was bigger than the decklist.
 
-I made Codex search for combo routes, check card text, reject broken lines, compare the survivors, and then look for support cards.
+I started with one question: can Shang-Chi become part of a deterministic Standard combo? Codex searched card text, found the Bow line on its own, checked the rules, ranked the routes, and built outward from the best one.
 
-That order matters.
+That order matters. If you ask an AI tool for a decklist too early, it can give you 60 cards wrapped around a shaky idea. Asking Codex to prove the idea first made the whole conversation better.
 
-If you ask an AI tool for a decklist too early, it can give you something that looks like a deck but rests on a weak premise. If you first ask it to prove the premise, you get a much better conversation.
+Now the hard part starts. Standard is full of powerful decks, fast clocks, efficient removal, graveyard hate, artifact hate, and counterspells. I still need to find out whether this list can survive that pressure.
 
-In this case, the premise was simple:
-
-> Can Shang-Chi become part of a deterministic Standard combo?
-
-For now, yes.
-
-Now the real work starts: testing the deck and finding out whether the combo is fast and resilient enough to survive actual games.
+But this felt like the right use of Codex. It made a deep search fast enough to fit into one deckbuilding session, without skipping the hard questions. For combo deckbuilding, that is a tool worth keeping on the table.
