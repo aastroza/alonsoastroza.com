@@ -25,7 +25,7 @@ I have also been away from competitive Magic tournaments for years, so I did not
 
 ## The Scryfall skill
 
-[Codex](https://developers.openai.com/codex/quickstart) is OpenAI's agent tool. It can use AI models like ChatGPT, but it can also work with files, tools, commands, and reusable instructions. If you want to try it, start with the official Codex quickstart.
+[Codex](https://developers.openai.com/codex) is OpenAI's agent tool. It can use AI models like ChatGPT, but it can also work with files, tools, commands, and reusable instructions. If you want to try it, start with the official [Codex quickstart](https://developers.openai.com/codex/quickstart).
 
 In Codex, a [skill](https://developers.openai.com/codex/skills) is a small playbook for a specific kind of work. It can tell Codex how to use a tool, what assumptions to avoid, and what workflow to follow.
 
@@ -76,27 +76,29 @@ The best output was the filtering: Codex separated real routes from cards that o
 
 ## The loop
 
-The surprise was that Codex found this line by itself. I did not give it Agatha's Soul Cauldron, Sleep-Cursed Faerie, or Hawkeye's Bow. I gave it Shang-Chi and asked whether a real combo existed.
+The part that made me stop was how little I had given Codex.
 
-The card that made the loop possible was [Agatha's Soul Cauldron](https://scryfall.com/card/woe/242/agathas-soul-cauldron).
+I did not mention [Agatha's Soul Cauldron](https://scryfall.com/card/woe/242/agathas-soul-cauldron). I did not mention [Sleep-Cursed Faerie](https://scryfall.com/card/woe/66/sleep-cursed-faerie). I did not mention [Hawkeye's Bow](https://scryfall.com/card/msh/132/hawkeyes-bow).
 
-With [Sleep-Cursed Faerie](https://scryfall.com/card/woe/66/sleep-cursed-faerie) in the graveyard, Agatha's Soul Cauldron can exile it and put a +1/+1 counter on Shang-Chi. Because Shang-Chi now has a +1/+1 counter, the Cauldron gives him the Faerie's activated ability:
+The prompt had one card: Shang-Chi. The question was whether Standard had a deterministic combo somewhere around him.
+
+Codex found one.
+
+The engine starts with Agatha's Soul Cauldron and Sleep-Cursed Faerie. If the Faerie is in the graveyard, the Cauldron can exile it, put a +1/+1 counter on Shang-Chi, and give him the Faerie's activated ability:
 
 > `{1}{U}: Untap this creature.`
 
-Shang-Chi can tap for two mana of any one color. That mana can only be spent on activated abilities of creature sources, but the untap ability is now on Shang-Chi himself. Agatha's Soul Cauldron also lets you spend mana as though it were mana of any color to activate abilities of creatures you control.
+That line matters because Shang-Chi already taps for two mana of any one color. His mana can only be spent on activated abilities of creature sources, but the untap ability is now on Shang-Chi himself. Agatha's Soul Cauldron also lets you spend mana as though it were mana of any color to activate abilities of creatures you control.
 
-That gives you the first loop:
+So Codex had found the first half of the machine:
 
 1. Tap Shang-Chi for two mana.
 2. Spend that mana to untap Shang-Chi.
 3. Tap him again.
 
-By itself, that loop only breaks even on mana. It does not win the game.
+That loop is real, but it only breaks even on mana. It needs a payoff.
 
-The payoff is [Hawkeye's Bow](https://scryfall.com/card/msh/132/hawkeyes-bow).
-
-Hawkeye's Bow says that whenever the equipped creature becomes tapped, it deals 1 damage to each opponent. If the Bow is equipped to Shang-Chi, the loop becomes lethal:
+The impressive part was that Codex kept going and found the payoff too: Hawkeye's Bow. The Bow says that whenever the equipped creature becomes tapped, it deals 1 damage to each opponent. Equip it to Shang-Chi and the harmless loop turns lethal:
 
 1. Tap Shang-Chi.
 2. Hawkeye's Bow deals 1 damage.
@@ -117,7 +119,7 @@ Here are the core pieces visually:
   <a href="https://scryfall.com/card/msh/132/hawkeyes-bow"><img src="https://cards.scryfall.io/normal/front/4/8/485be72b-d784-4886-bb3a-48cff8f781c6.jpg?1780919849" alt="Hawkeye's Bow" loading="lazy" style="border-radius: 10px; width: 100%;" /></a>
 </div>
 
-That is the result I wanted: a rules-based loop instead of cards that merely shared words.
+That was the moment the search became interesting. Codex had not just found cards with overlapping text. It had assembled a rules-based kill from one starting card and a broad search prompt.
 
 ## Compare routes before choosing one
 
@@ -158,7 +160,9 @@ In the comparison prompt, that is the paragraph that starts with "write yourself
 
 I picked up this trick from a tweet by [Pietro Schirano](https://x.com/skirano/status/2066225908202053818?s=20).
 
-{% twitter https://x.com/skirano/status/2066225908202053818 %}
+<blockquote class="twitter-tweet">
+  <a href="https://twitter.com/skirano/status/2066225908202053818">View Pietro Schirano's tweet on X.</a>
+</blockquote>
 
 The point is simple: when the problem has several plausible paths, I do not want Codex to fall in love with the first one it sees.
 
@@ -252,18 +256,16 @@ For this task, write yourself a new goal and spawn agents in parallel — as man
 
 The first shell Codex proposed was [Temur](https://mtg.fandom.com/wiki/Temur_Frontier), Magic shorthand for a blue-red-green deck.
 
-Green is required for Shang-Chi and many of the setup cards. Red gives access to Hawkeye's Bow and other interaction. Blue makes Sleep-Cursed Faerie castable and opens up better card selection and permission. If you do not play Magic, the important part is that the deck can cast all four combo pieces without stretching into a fourth color.
-
-The core kill is:
-
-- [Shang-Chi, Master of Kung Fu](https://scryfall.com/card/msh/187/shang-chi-master-of-kung-fu)
-- [Agatha's Soul Cauldron](https://scryfall.com/card/woe/242/agathas-soul-cauldron)
-- [Sleep-Cursed Faerie](https://scryfall.com/card/woe/66/sleep-cursed-faerie)
-- [Hawkeye's Bow](https://scryfall.com/card/msh/132/hawkeyes-bow)
-
-The rest of the deck should support that plan with artifact finding, graveyard setup, protection, removal, and a fast mana base.
+Green is required for Shang-Chi and many of the setup cards. Red gives access to Hawkeye's Bow and other interaction. Blue makes Sleep-Cursed Faerie castable and opens up better card selection and permission. If you do not play Magic, the important part is that the deck can cast all four combo pieces without stretching into a fourth color. The rest of the deck should support that plan with artifact finding, graveyard setup, protection, removal, and a fast mana base.
 
 I published the current test list on MTGGoldfish as [Codex Shang-chi Combo](https://www.mtggoldfish.com/deck/7839976#paper). Treat it as a starting point, not a tuned recommendation.
+
+<figure>
+  <a href="https://www.mtggoldfish.com/deck/7839976#paper">
+    <img src="/images/blog/shang-chi-codex/deck-visual.jpg" alt="Visual overview of the Codex Shang-Chi Combo decklist on MTGGoldfish" loading="lazy" style="border-radius: 12px; width: 100%;" />
+  </a>
+  <figcaption>The current test list as a visual deck layout on MTGGoldfish.</figcaption>
+</figure>
 
 The numbers need testing. The sideboard depends on the Standard metagame. The deck can lose to removal, graveyard hate, artifact hate, counterspells, or faster decks.
 
